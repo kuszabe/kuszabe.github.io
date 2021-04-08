@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html  lang="hu">
+  <head>
+    <title>Bejelentkezés - TeamWork</title> 
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Language" content"hu-HU">
+<!-- ide jönnek az importok -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<script src="https://kit.fontawesome.com/216df0e9af.js" crossorigin="anonymous"></script>
+	<script src="https://www.w3schools.com/lib/w3.js"></script>
+	<script src="js/datum.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/data.js"></script>
+	<script src="js/menu.js"></script>
+	<script src="js/chat.js"></script>
+	<script src="js/teams.js"></script>
+	<script>
+		// Used to toggle the menu on small screens when clicking on the menu button
+		function picikeMenu() {
+		  var x = document.getElementById("navDemo");
+		  if (x.className.indexOf("w3-show") == -1) {
+			x.className += " w3-show";
+		  } else {
+			x.className = x.className.replace(" w3-show", "");
+		  }
+		}
+	</script>
+	<style>
+		.tabcontent {
+			margin-top: 100px;
+			width: 100%;
+		}
+		
+		#chatbelul {
+			top: 50px !important;
+		}
+		
+		chatlegomb {
+			position: fixed;
+			bottom: 75px !important
+		}
+		
+		teamfelgomb {
+			position: fixed;
+			bottom: 75px !important
+		}
+	</style>
+  </head>
+<body id="body" onload="w3.includeHTML(vanLogin)">
+<div id="navbar" style="display:none">
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+	<button class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" onclick="picikeMenu()" title="Toggle Navigation Menu">
+	  <i class="fas fa-bars"></i>
+	</button>
+	<button 
+	  onclick="ugras(event, 'teams', 'Csapatok')" id="teamslink" 
+	  class="w3-bar-item w3-button tablinks w3-padding-large w3-hover-white w3-white w3-hide-small">
+	  <i class="fas fa-users linkicon"></i><span class="linkspan"> Csapatok</span>
+	</button>
+	<button 
+	  onclick="ugras(event, 'chat', 'Chat')" class="w3-bar-item w3-button tablinks w3-hide-small w3-padding-large w3-hover-white"><i class="fas fa-comments linkicon"></i><span class="linkspan">Chat </span><span class="w3-badge">1</span></button>
+    <button onclick="ugras(event, 'beallitasok', 'Beálítások')" class="w3-bar-item tablinks w3-button w3-hide-small w3-padding-large w3-hover-white"><i class="fas fa-cog linkicon"></i><span class="linkspan">Beálítások</span></button>
+    <button onclick="logout()" class="w3-bar-item w3-right w3-button w3-padding-large w3-hide-small"><i class="fas fa-sign-out-alt linkicon"></i><span class="linkspan">Kijelentkezés</span></button>
+	<button onclick="ugras(event, 'user', 'Én')" class="w3-bar-item tablinks w3-button w3-hide-small w3-right w3-padding-large w3-hover-white"><i class="fas fa-user linkicon"></i><span class="linkspan">{{name}}</span></button>
+
+
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" onclick="w3.hide('#navDemo')" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <button onclick="ugras(event, 'teams', 'Csapatok')" class="w3-bar-item w3-button w3-padding-large w3-white w3-mobile tablinks"><i class="fas fa-users linkicon"></i><span class="linkspan">Csapatok</span></button>
+    <button onclick="ugras(event, 'chat', 'Chat')" class="tablinks w3-bar-item w3-button w3-mobile w3-padding-large w3-hover-white"><i class="fas fa-comments linkicon"></i><span class="linkspan">Chat</span></button>
+    <button onclick="ugras(event, 'beallitasok', 'Beálítások')" class="w3-bar-item w3-button w3-mobile w3-padding-large w3-hover-white tablinks"><i class="fas fa-cog linkicon"></i><span class="linkspan">Beálítások</span></button>
+	<button onclick="ugras(event, 'user', 'Én')" class="w3-bar-item tablinks w3-button w3-mobile w3-padding-large w3-hover-white"><i class="fas fa-user linkicon"></i><span id="username" class="linkspan"></span></button>
+    <button onclick="logout()" class="w3-bar-item w3-right w3-button w3-padding-large w3-mobile"><i class="fas fa-sign-out-alt linkicon"></i><span class="linkspan">Kijelentkezés</span></button>
+	<button onclick="ugras(event, 'beallitasok')" class="w3-bar-item tablinks w3-button w3-hide-small w3-right w3-padding-large w3-hover-white"><i class="fas fa-user linkicon"></i><span class="linkspan">{{name}}</span></button>
+  </div>
+  </div>
+</div>
+
+
+<!-- teams -->
+
+<div id="teams" style="display: none" class="tabcontent" w3-include-html="include/teams.html">
+</div>
+<div id="teambelul" style="display:none;" class="tabcontent w3-animate-bottom" w3-include-html="include/teambelul.html"></div>
+
+
+
+<!-- userinfo -->
+
+<div id="user" style="width:100%;display:none" class="tabcontent w3-center">
+	<div class="w3-container w3-card w3-margin-64">
+		<h3><i class="far fa-user"></i>  <span>{{name}}</span></h3>
+		<h3><i class="far fa-envelope"></i>  <span>{{email}}</span></h3>
+	</div>
+</div>
+
+
+
+
+<!--
+  ------
+ -      -
+-        -
+- chatek -
+-       -
+ -    -
+  - -
+   -
+-->
+
+<div id="chat" style="display:none;width:100%" class="tabcontent w3-block" w3-include-html="include/chat.html"></div>
+
+<div id="chatbelul" style="display:none;" class="tabcontent" w3-include-html="include/chatbelul.html"></div>
+
+
+<!-- beallitasok -->
+
+<div id="beallitasok" style="display:none ;width:100%" class="tabcontent w3-block" w3-include-html="include/beallitasok.html"></div>
+
+
+
+<!-- login -->
+
+<div id="login" class="w3-display-middle" style="display:block" w3-include-html="include/login.html"></div>
+
+
+<!-- regisztáció -->
+
+<div id="signup" class="w3-display-middle" style="display:none" w3-include-html="include/signup.html"></div>
+
+</body>
+</html>
+
+          
+         
+        
+       
+      
+     
+    
+   
+  
+ 
