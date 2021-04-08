@@ -1,0 +1,17 @@
+
+    <div id="chatlist"></div>
+    <button class="w3-button w3-panel w3-block w3-hover-light-blue" onclick="ujChat()">Új Chat</button>
+    
+    <div id="ujchat" class="w3-modal w3-center w3-animate-zoom">
+        <div id="emberadd" class="w3-card w3-light-blue w3-large">
+            <span class="w3-button w3-blue w3-right" onclick="w3.hide('#ujchat')">x</span><h3>Új chat</h3>
+            <input class="w3-white w3-border" id="emberekinput" style="width:85%"><span class="w3-button w3-blue" style="width:15%" onclick="emberekKesz()">Tovább</span>
+            <div id="emberlista"></div>
+            <button class="w3-button" onclick="ujember()"><i class="fas fa-plus"></i>Hozzáadás</button>
+        </div>
+        
+        <div id="ujchatnev" class="w3-card w3-light-blue w3-large"><span class="w3-button w3-blue w3-right" onclick="w3.hide('#ujchat')">x</span><h3>Új chat</h3>
+            <input class="w3-white w3-border" id="ujchatnevinput" style="width:85%"><span class="w3-button w3-blue" style="width:15%" onclick="addChat()">Tovább</span>
+        </div>
+    </div>
+    
