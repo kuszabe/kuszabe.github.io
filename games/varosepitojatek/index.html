@@ -1,0 +1,63 @@
+<html>
+<head>
+    <title>Városépítő online játék</title>
+    <script src="main.js"></script>
+    <script src="alapozo.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body onload="betolt()">
+
+<svg style="position: fixed; top:0px; width: 100%;" viewBox="-3 -3 603 20">
+
+  <rect x="-3" y="-3" width="606" height="20" fill="red"/>
+  <text id="arany" x="2" y="10"></text>
+  <text id="ellatmany" x="50" y="10"></text>
+
+  <g onclick="vegrehajt(prompt('Mit szeretne?'))" style="cursor: pointer;">
+    <rect x="583" y="-3" width="20" height="20" fill="blue"/>
+    <text x="590" y="10">i</text>
+  </g>
+
+        
+</svg>
+    
+
+<svg style="width: 100%; background-color: aqua;"
+   viewBox="-3 -3 603 603"
+>
+
+<g id="alapok">
+
+</g>
+
+<g id="svg">
+
+</g>
+
+</svg>
+
+
+<div id="plusz" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('plusz').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <p class="w3-button w3-block" onclick="tovabbhaz()">Ház építése <tag class="w3-tag"></tag></p>
+        <p class="w3-button w3-block" onclick="tovabbvar()">Vár építése</p>
+        <p class="w3-button w3-block" onclick="tovabbmuhely()">Műhely építése</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="varmenu" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('varmenu').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <p class="w3-button w3-block" onclick="ujkatona()">Új katona   &nbsp;  Katonák száma: &nbsp; <tag id="katonaszam">30</tag> </p>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>

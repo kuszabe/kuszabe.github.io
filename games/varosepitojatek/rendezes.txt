@@ -1,0 +1,136 @@
+  
+alap='  
+
+<rect
+    fill="green"
+    stroke="black"
+    stroke-width="5"
+    width="60"
+    height="60"
+    x="0"
+    y="0" 
+/>
+
+'
+
+haz:
+
+<g id="haz01" onclick="alert('ház vagyok')">
+
+<rect
+    fill="green"
+    stroke="black"
+    stroke-width="5"
+    width="60"
+    height="60"
+    x="0"
+    y="0" 
+/>
+
+<rect 
+    fill="green"
+    stroke="black"
+    stroke-width="5"
+    width="60"
+    height="60"
+    x="0"
+    y="0" 
+/>
+    <rect
+       fill="yellow"
+       width="40"
+       height="40"
+       x="10"
+       y="10"
+       stroke="black"
+       stroke-width="5" />
+   <line x1="30" y1="10" x2="30" y2="50" stroke="black" stroke-width="5" />
+    <rect
+       width="10"
+       height="10"
+       x="35"
+       y="25" />
+
+</g>
+ 
+
+
+
+var:
+
+
+
+<g id="var">
+    <rect
+       y="0"
+       x="0"
+       height="60"
+       width="60"
+       id="rect3729-5-96-8-7"
+       style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:3.4125464;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="5"
+       x="5"
+       height="50"
+       width="50"
+       id="rect4612-2"
+       style="opacity:1;fill:#666666;fill-opacity:1;stroke:#000000;stroke-width:2.84378552;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="0"
+       x="0"
+       height="15"
+       width="15"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:2.39271832;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       
+    <rect
+       y="45"
+       x="0"
+       height="15"
+       width="15"
+       id="rect4616-19-9"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:2.39271832;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+   
+    <rect
+       y="0"
+       x="45"
+       height="15"
+       width="15"
+       id="rect4616-2-5"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:2.47698975;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="45"
+       x="45"
+       height="15"
+       width="15"
+       id="rect4616-5-6-3"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:1.65132666;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+
+    <rect
+       y="0"
+       x="25"
+       height="10"
+       width="10"
+       id="rect4616-5-6-3-4"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:1.65132666;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="25"
+       x="0"
+       height="10"
+       width="10"
+       id="rect4616-5-6-3-8"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:1.65132666;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="25"
+       x="50"
+       height="10"
+       width="10"
+       id="rect4616-5-6-3-1"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:1.65132666;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="50"
+       x="25"
+       height="10"
+       width="10"
+       id="rect4616-5-6-3-1"
+       style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:#000000;stroke-width:1.65132666;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
