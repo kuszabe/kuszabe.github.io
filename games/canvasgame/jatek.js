@@ -81,7 +81,7 @@ function newSpeedBoost(x, y) {
 }
 
 
-var myGamePiece,akadalyok,akadalyimg,falimg,speedactive,gravityactive,stopactive;
+let myGamePiece,akadalyok,akadalyimg,falimg,speedactive,gravityactive,stopactive;
 let pluszok = {
 	coins:[],
 	speedboosts:[],
@@ -238,15 +238,14 @@ var myGameArea = {
 		console.log("megálltam")
 	},
 	szamlalo:0,
-	meret:1
+	meret:1.5
 }
 
 function component(width, height, color, x, y, type, indexid) {
 	this.indexId = indexid
-	if (akadalyok.indexOf(function (item) {
+	if (akadalyok.findIndex(function (item) {
 		return item.indexId == this.indexId
 	})) {
-		console.log("létrejöttem ezzel az azonosítóval: " + this.indexId)
 		this.type = type;
 		if (type == "image") {
 				this.image = new Image();
@@ -389,8 +388,11 @@ function updateGameArea() {
 			break;
 			
 			case 3:
-				pluszok.ujboost(x,y)
+				console.log(akadalyok.length)
 				akadalyok.push(new component(myGameArea.meret * 50, myGameArea.meret * 10, akadalyimg.src, x, y, "image", akadalyok.length));
+				console.log(akadalyok.length)
+				pluszok.ujboost(x,y)
+				console.log(akadalyok.length)
 			break;
 			
 			case 4:
