@@ -7,11 +7,11 @@
                 Notification.requestPermission().then(perm => {
                     alert(perm)
                 })
+                new Notification('You clicked', {'body':'and that makes me happy'})
             }
         </script>
     </head>
     <body>
         <button onclick="buttonPress()"> Enable notifications</button>
-        <button onclick="new Notification('You clicked', {'body':'and that makes me happy'})">Click Me</button>
     </body>
 </html>
