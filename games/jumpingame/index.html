@@ -62,10 +62,10 @@
         ],
         []
         ]
-        scene("lose", ({ score }) => {
+        scene("lose", ({ score, wlevel }) => {
             add([text("Score:" + score)])
             onClick(() => {
-                go("game", { wlevel: 1 })
+                go("game", { wlevel })
             })
         })
 
@@ -73,9 +73,17 @@
             add([text("You won")])
         })
 
+        scene("menu", () => {
+            add([text("Random jumping game"), pos(width() / 2, 0), origin("top")])
+            add([text("Start"), pos(width() / 2, height() / 2), origin("center"), area()]).onClick(() => {
+                go("game", {wlevel: 1})
+            })
+
+        })
+
         scene("game", ({ wlevel }) => {
 
-            //costom components
+            //custom components
 
             function spin(speed = 1200) {
                 let spinning = false
@@ -94,6 +102,9 @@
                     spin() {
                         spinning = true
                     },
+                    isSpinning() {
+                        return spinning
+                    }
                 }
             }
 
@@ -110,7 +121,7 @@
                             if (obj.is("enemy")) {
                                 this.jump()
                                 fly++
-                                if (fly > 100) {
+                                if (fly > rand(300, 500)) {
                                     addKaboom(this.pos)
                                     destroy(this)
                                     if (get("enemy").length == 0) {
@@ -139,7 +150,6 @@
                         this.on("collide", (obj, col) => {
                             if (col.isLeft()) {
                                 slide = duration
-                                debug.log("fuss")
                             } else if (col.isRight()) {
                                 slide = -duration
                             }
@@ -158,7 +168,6 @@
             }
 
             if (wlevel > 3) {
-                debug.log("wereee")
                 go("win")
             }
 
@@ -203,11 +212,11 @@
 
             player.onCollide("enemy", (e, col) => {
                 // if it's not from the top, die
-                if (!col.isBottom() & !player.spinning) {
+                if (!col.isBottom() & player.angle == 0) {
                     destroy(player)
-                    wait(2, () => go("lose", { score: points }))
-                } else if (player.spinning) {
-                    adKaboom(e.pos)
+                    wait(2, () => go("lose", { score: points , wlevel}))
+                } else if (player.angle < 0) {
+                    addKaboom(player.pos)
                     destroy(e)
                 }
             })
@@ -220,7 +229,6 @@
                 if (jump_force > 700) {
                     jump_force = 700
                 }
-                debug.log(jump_force)
                 power = toWorld(mousePos()).x - player.pos.x
                 player.doubleJump(jump_force)
             })
@@ -249,7 +257,7 @@
             })
         })
 
-        go("game", { wlevel: 1 })
+        go("menu")
 
     </script>
 </body>
