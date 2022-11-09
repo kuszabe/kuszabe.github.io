@@ -1,0 +1,257 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="module">
+        import kaboom from "https://unpkg.com/kaboom/dist/kaboom.mjs";
+        kaboom({
+            background: [255, 255, 255]
+        })
+
+
+
+
+
+        let levels = [[
+            "                                                      ",
+            "                                                      ",
+            "               x                 x                    ",
+            "            o------o         o----o  x                ",
+            "                                                      ",
+            "   ----                                               ",
+            "                                                      ",
+            "                    x               -----      x      ",
+            "o----------------------------------------------------o",
+        ],
+        [
+            "-------------------------------------------",
+            "-                                         -",
+            "-  x  x  x                                -",
+            "-                                         -",
+            "-                   x x                   -",
+            "-               o--------o       x        -",
+            "-                               o--o      -",
+            "-                                         -",
+            "-                o   x       o            -",
+            "-                -------------            -",
+            "-                                         -",
+            "-                                         -",
+            "-           ---           x         x     -",
+            "-------------------------------------------"
+        ],
+        [
+            "                                 ",
+            "                                 ",
+            "                                 ",
+            "                                 ",
+            "                                 ",
+            "                                 ",
+            "          x   x                  ",
+            "        o---------o              ",
+            "                                 ",
+            "                                 ",
+            "                                 ",
+            "            ¤                    ",
+            "o-------------------------------o"
+        ],
+        []
+        ]
+        scene("lose", ({ score }) => {
+            add([text("Score:" + score)])
+            onClick(() => {
+                go("game", { wlevel: 1 })
+            })
+        })
+
+        scene("win", () => {
+            add([text("You won")])
+        })
+
+        scene("game", ({ wlevel }) => {
+
+            //costom components
+
+            function spin(speed = 1200) {
+                let spinning = false
+                return {
+                    require: ["rotate",],
+                    update() {
+                        if (!spinning) {
+                            return
+                        }
+                        this.angle -= speed * dt()
+                        if (this.angle <= -360) {
+                            spinning = false
+                            this.angle = 0
+                        }
+                    },
+                    spin() {
+                        spinning = true
+                    },
+                }
+            }
+
+            function patrol(speed = 60, dir = 1) {
+                let fly = 0
+                return {
+                    id: "patrol",
+                    require: ["pos", "area",],
+                    add() {
+                        this.onCollide("turn", () => {
+                            dir = -dir
+                        })
+                        this.on("collide", (obj, col) => {
+                            if (obj.is("enemy")) {
+                                this.jump()
+                                fly++
+                                if (fly > 100) {
+                                    addKaboom(this.pos)
+                                    destroy(this)
+                                    if (get("enemy").length == 0) {
+                                        nextLevel()
+                                    }
+                                }
+                            }
+                            if (col.isLeft() || col.isRight()) {
+                                dir = -dir
+                            }
+
+                        })
+                    },
+                    update() {
+                        this.move(speed * dir, 0)
+                    },
+                }
+            }
+
+            function pushable(duration = 50, power = 200) {
+                let slide = 0
+                return {
+                    id: "pushable",
+                    require: ["pos", "area", "body"],
+                    add() {
+                        this.on("collide", (obj, col) => {
+                            if (col.isLeft()) {
+                                slide = duration
+                                debug.log("fuss")
+                            } else if (col.isRight()) {
+                                slide = -duration
+                            }
+                        })
+                    },
+                    update() {
+                        if (slide > 0) {
+                            this.move(power, 0)
+                            slide--
+                        } else if (slide < 0) {
+                            this.move(-power, 0)
+                            slide++
+                        }
+                    }
+                }
+            }
+
+            if (wlevel > 3) {
+                debug.log("wereee")
+                go("win")
+            }
+
+            function nextLevel() {
+                go("game", { wlevel: wlevel + 1 })
+
+            }
+            let points = 0
+            let has_started = false
+            let power
+
+            const level = addLevel(
+                levels[wlevel - 1],
+                {
+                    width: 64,
+                    height: 64,
+                    "-": () => [rect(64, 64), color(0, 0, 0), area(), solid(),],
+                    "x": () => [rect(64, 64), color(255, 0, 0), area(), body(), patrol(rand(30, 300)), "enemy"],
+                    "o": () => [rect(64, 64), color(0, 0, 0), area(), solid(), "turn"],
+                    "¤": () => [rect(64, 64), color(127, 81, 18), area(), body(), pushable()],
+                    "w": () => [text("You won")]
+                }
+            )
+
+            const player = add([rect(64, 64,), color(0, 255, 0), area(), body(), pos(96, 96), origin("center"), rotate(), spin(), "player"])
+
+            player.onDoubleJump(() => {
+                player.spin()
+            })
+
+            player.onGround((l) => {
+                if (l.is("enemy")) {
+                    player.jump()
+                    destroy(l)
+                    addKaboom(player.pos)
+                    points++
+                    if (get("enemy").length == 0) {
+                        nextLevel()
+                    }
+                }
+            })
+
+            player.onCollide("enemy", (e, col) => {
+                // if it's not from the top, die
+                if (!col.isBottom() & !player.spinning) {
+                    destroy(player)
+                    wait(2, () => go("lose", { score: points }))
+                } else if (player.spinning) {
+                    adKaboom(e.pos)
+                    destroy(e)
+                }
+            })
+
+
+
+            onClick(() => {
+                has_started = true
+                let jump_force = (player.pos.y - toWorld(mousePos()).y) * 5
+                if (jump_force > 700) {
+                    jump_force = 700
+                }
+                debug.log(jump_force)
+                power = toWorld(mousePos()).x - player.pos.x
+                player.doubleJump(jump_force)
+            })
+
+            onUpdate("player", () => {
+                if (!player.isGrounded() & has_started) {
+                    player.move(power, 0)
+                }
+                if (player.pos.y > 5000) {
+                    destroy(player)
+                    go("lose", { score: points })
+                }
+            })
+
+            onUpdate("player", () => {
+                camPos(player.pos)
+            })
+
+            onUpdate("enemy", (e) => {
+                if (e.pos.y > 5000) {
+                    destroy(e)
+                    if (get("enemy").length == 0) {
+                        nextLevel()
+                    }
+                }
+            })
+        })
+
+        go("game", { wlevel: 1 })
+
+    </script>
+</body>
+
+</html>
