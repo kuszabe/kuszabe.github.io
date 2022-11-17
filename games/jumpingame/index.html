@@ -46,19 +46,19 @@
             "-------------------------------------------"
         ],
         [
-            "                                 ",
-            "                                 ",
-            "                                 ",
-            "                                 ",
-            "                                 ",
-            "                                 ",
-            "          x   x                  ",
-            "        o---------o              ",
-            "                                 ",
-            "                                 ",
-            "                                 ",
-            "            ¤                    ",
-            "o-------------------------------o"
+            "                                          ",
+            "                                          ",
+            "                                          ",
+            "                                          ",
+            "                                          ",
+            "                                          ",
+            "                   x   x                  ",
+            "                o---------o               ",
+            "                                          ",
+            "                                          ",
+            "                                          ",
+            "                     ¤                    ",
+            "o-----------------------------------------o"
         ],
         []
         ]
@@ -177,7 +177,8 @@
             }
             let points = 0
             let has_started = false
-            let power
+            let power 
+            let combo = 0
 
             const level = addLevel(
                 levels[wlevel - 1],
@@ -204,9 +205,14 @@
                     destroy(l)
                     addKaboom(player.pos)
                     points++
+                    add([text(((combo > 0) ? "Combo +" + combo  : '')), pos(player.pos.x, player.pos.y - 100), lifespan(2, {fade: 1.5})])
+                    points += combo
+                    combo++
                     if (get("enemy").length == 0) {
                         nextLevel()
                     }
+                } else {
+                    combo = 0
                 }
             })
 
