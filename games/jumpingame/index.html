@@ -38,8 +38,8 @@
             "-               o--------o       x        -",
             "-                               o--o      -",
             "-                                         -",
-            "-                o   x       o            -",
-            "-                -------------            -",
+            "-                    x                    -",
+            "-                o-----------o            -",
             "-                                         -",
             "-                                         -",
             "-           ---           x         x     -",
@@ -108,6 +108,7 @@
                 }
             }
 
+        
             function patrol(speed = 60, dir = 1) {
                 let fly = 0
                 return {
@@ -121,12 +122,9 @@
                             if (obj.is("enemy")) {
                                 this.jump()
                                 fly++
-                                if (fly > rand(300, 500)) {
-                                    addKaboom(this.pos)
-                                    destroy(this)
-                                    if (get("enemy").length == 0) {
-                                        nextLevel()
-                                    }
+                                if (fly > 100) {
+                                    dir = -dir
+                                    move(rand(50,100), 0)
                                 }
                             }
                             if (col.isLeft() || col.isRight()) {
@@ -224,6 +222,9 @@
                 } else if (player.angle < 0) {
                     addKaboom(player.pos)
                     destroy(e)
+                    if (get("enemy").length == 0) {
+                        nextLevel()
+                    }
                 }
             })
 
