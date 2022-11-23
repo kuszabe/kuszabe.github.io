@@ -60,7 +60,6 @@
             "                     ¤                    ",
             "o-----------------------------------------o"
         ],
-        []
         ]
         scene("lose", ({ score, wlevel }) => {
             add([text("Score:" + score)])
@@ -76,9 +75,19 @@
         scene("menu", () => {
             add([text("Random jumping game"), pos(width() / 2, 0), origin("top")])
             add([text("Start"), pos(width() / 2, height() / 2), origin("center"), area()]).onClick(() => {
-                go("game", {wlevel: 1})
+                go("game", { wlevel: 1 })
             })
 
+        })
+
+        scene("level_selector", () => {
+            let map = [
+                "          1     2     3               ",
+                "                                      ",
+                "",
+                "",
+                "---------------------------------------",
+            ]
         })
 
         scene("game", ({ wlevel }) => {
@@ -108,7 +117,6 @@
                 }
             }
 
-        
             function patrol(speed = 60, dir = 1) {
                 let fly = 0
                 return {
@@ -120,12 +128,13 @@
                         })
                         this.on("collide", (obj, col) => {
                             if (obj.is("enemy")) {
+                                if (fly > 10) {
+                                    fly = 0
+                                    dir = -dir
+                                }
+
                                 this.jump()
                                 fly++
-                                if (fly > 100) {
-                                    dir = -dir
-                                    move(rand(50,100), 0)
-                                }
                             }
                             if (col.isLeft() || col.isRight()) {
                                 dir = -dir
@@ -165,7 +174,11 @@
                 }
             }
 
-            if (wlevel > 3) {
+            function addGun(who) {
+                let gun = add([pos(), rect(32, 16), color(50, 50, 50), follow(who, vec2(24, 0))])
+            }
+
+            if (wlevel == levels.length) {
                 go("win")
             }
 
@@ -175,7 +188,7 @@
             }
             let points = 0
             let has_started = false
-            let power 
+            let power
             let combo = 0
 
             const level = addLevel(
@@ -197,15 +210,16 @@
                 player.spin()
             })
 
+            addGun(player)
+
             player.onGround((l) => {
                 if (l.is("enemy")) {
                     player.jump()
                     destroy(l)
                     addKaboom(player.pos)
-                    points++
-                    add([text(((combo > 0) ? "Combo +" + combo  : '')), pos(player.pos.x, player.pos.y - 100), lifespan(2, {fade: 1.5})])
-                    points += combo
                     combo++
+                    points += combo
+                    add([text(((combo > 0) ? "Combo +" + combo : '')), pos(player.pos.x, player.pos.y - 100), lifespan(2, { fade: 1.5 })])
                     if (get("enemy").length == 0) {
                         nextLevel()
                     }
@@ -218,7 +232,7 @@
                 // if it's not from the top, die
                 if (!col.isBottom() & player.angle == 0) {
                     destroy(player)
-                    wait(2, () => go("lose", { score: points , wlevel}))
+                    wait(2, () => go("lose", { score: points, wlevel }))
                 } else if (player.angle < 0) {
                     addKaboom(player.pos)
                     destroy(e)
