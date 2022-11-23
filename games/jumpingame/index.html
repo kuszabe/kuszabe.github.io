@@ -60,6 +60,7 @@
             "                     ¤                    ",
             "o-----------------------------------------o"
         ],
+        []
         ]
         scene("lose", ({ score, wlevel }) => {
             add([text("Score:" + score)])
@@ -176,6 +177,20 @@
 
             function addGun(who) {
                 let gun = add([pos(), rect(32, 16), color(50, 50, 50), follow(who, vec2(24, 0))])
+                let item = false
+                function turnIntoItem() {
+                    gun.unuse("follow")
+                    gun.use(area())
+                    gun.use(body())
+                    gun.use(lifespan(3, { fade: 2 }),)
+                }
+                let onupdate = gun.onUpdate(() => {
+                    if (!who.exists() & !item) {
+                        onupdate = false
+                        item = true
+                        turnIntoItem()
+                    }
+                })
             }
 
             if (wlevel == levels.length) {
