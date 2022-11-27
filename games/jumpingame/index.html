@@ -176,22 +176,62 @@
             }
 
             function addGun(who) {
-                let gun = add([pos(), rect(32, 16), color(50, 50, 50), follow(who, vec2(24, 0))])
+                let gun = add([pos(), rect(32, 16), color(50, 50, 50), follow(who, vec2((player.pos.x < toWorld(mousePos).x) ? 24 : -24 ,0))])
                 let item = false
                 function turnIntoItem() {
-                    gun.unuse("follow")
                     gun.use(area())
                     gun.use(body())
                     gun.use(lifespan(3, { fade: 2 }),)
+                    spacelistener()
                 }
                 let onupdate = gun.onUpdate(() => {
+                    gun.pos = vec2(((player.pos.x < toWorld(mousePos()).x) ? player.pos.x + 24 : player.pos.x - 48) ,player.pos.y)
                     if (!who.exists() & !item) {
-                        onupdate = false
+                        onupdate()
                         item = true
                         turnIntoItem()
                     }
                 })
+                let loaded = true
+                let spacelistener = onKeyDown("space", () => {
+                    if (loaded) {
+                        loaded = false
+                        const dir = who.pos.angle(toWorld(mousePos())) - 180
+
+                        let bullet = add([
+                            pos(gun.pos),
+                            move(dir, 500),
+                            rect(12, 12),
+                            area(),
+                            cleanup(),
+                            origin("center"),
+                            color(50, 50, 50),
+                            lifespan(10, { fade: 8 }),
+                            timer(0.05, () => {
+                                bullet.use(solid())
+                            }),
+                            "bullet",
+                        ])
+
+                        wait(2, () => {loaded = true})
+                    }
+
+                })
+
+
             }
+
+            on("collide", "bullet", (obj, bullet) => {
+                if (!obj.is("player") & !obj.is("enemy")) {
+                    addKaboom(bullet.pos)
+                    destroy(bullet)
+                    destroy(obj)
+                    if(get("enemy").length == 0) {
+                        nextLevel()
+                    }
+                }
+            })
+
 
             if (wlevel == levels.length) {
                 go("win")
@@ -275,7 +315,7 @@
                 }
                 if (player.pos.y > 5000) {
                     destroy(player)
-                    go("lose", { score: points })
+                    go("lose", { score: points, wlevel })
                 }
             })
 
